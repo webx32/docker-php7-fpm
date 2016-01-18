@@ -10,7 +10,7 @@ ENV PHP_FILENAME php-7.0.2.tar.xz
 ENV PHP_SHA256 556121271a34c442b48e3d7fa3d3bbb4413d91897abbb92aaeced4a7df5f2ab2
 ENV PHP_USER www-data
 ENV PHP_AUTOCONF /usr/bin/autoconf
-ENV ENV_TYPE production
+ENV PHP_INI_TYPE production
 
 # persistent / runtime deps
 RUN apt-get update && apt-get install -y ca-certificates wget librecode0 libmagickwand-dev libsasl2-dev libmemcached-dev imagemagick libsqlite3-0 libxml2 --no-install-recommends && rm -r /var/lib/apt/lists/*
@@ -154,7 +154,7 @@ RUN rm -Rf /usr/lib/rabbitmq-c
 # Create php.ini
 RUN curl https://raw.githubusercontent.com/php/php-src/PHP-$PHP_VERSION/php.ini-development -o $PHP_INI_DIR/php.ini-development \
     && curl https://raw.githubusercontent.com/php/php-src/PHP-$PHP_VERSION/php.ini-production -o $PHP_INI_DIR/php.ini-production \
-    ln -sf $PHP_INI_DIR/php.ini $PHP_INI_DIR/php.ini-$ENV_TYPE
+    ln -s $PHP_INI_DIR/php.ini-$PHP_INI_TYPE $PHP_INI_DIR/php.ini
 
 ADD config/php-fpm.conf $PHP_INI_DIR/php-fpm.conf
 ADD config/www.conf $PHP_INI_DIR/pool.d/www.conf
