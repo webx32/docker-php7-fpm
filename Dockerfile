@@ -154,7 +154,7 @@ RUN rm -Rf /usr/lib/rabbitmq-c
 # Create php.ini
 RUN curl https://raw.githubusercontent.com/php/php-src/PHP-$PHP_VERSION/php.ini-development -o $PHP_INI_DIR/php.ini-development \
     && curl https://raw.githubusercontent.com/php/php-src/PHP-$PHP_VERSION/php.ini-production -o $PHP_INI_DIR/php.ini-production \
-    ln -s $PHP_INI_DIR/php.ini-$PHP_INI_TYPE $PHP_INI_DIR/php.ini
+    && ln -s $PHP_INI_DIR/php.ini-$PHP_INI_TYPE $PHP_INI_DIR/php.ini
 
 ADD config/php-fpm.conf $PHP_INI_DIR/php-fpm.conf
 ADD config/www.conf $PHP_INI_DIR/pool.d/www.conf
