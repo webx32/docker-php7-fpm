@@ -12,11 +12,13 @@ ENV PHP_USER www-data
 ENV PHP_AUTOCONF /usr/bin/autoconf
 ENV PHP_INI_TYPE production
 
+RUN apt-get update && apt-get install -y git && rm -r /var/lib/apt/lists/*
+
 # persistent / runtime deps
-RUN apt-get update && apt-get install -y git ca-certificates wget librecode0 libmagickwand-dev libsasl2-dev libmemcached-dev imagemagick libsqlite3-0 libxml2 --no-install-recommends
+RUN apt-get update && apt-get install -y git ca-certificates wget librecode0 libmagickwand-dev libsasl2-dev libmemcached-dev imagemagick libsqlite3-0 libxml2 --no-install-recommends && rm -r /var/lib/apt/lists/*
 
 # phpize deps
-RUN apt-get update && apt-get install -y build-essential autoconf file g++ gcc libc-dev make pkg-config re2c --no-install-recommends
+RUN apt-get update && apt-get install -y build-essential autoconf file g++ gcc libc-dev make pkg-config re2c --no-install-recommends && rm -r /var/lib/apt/lists/*
 
 RUN mkdir -p $PHP_INI_DIR/conf.d \
     && mkdir -p $PHP_INI_DIR/pool.d
@@ -47,7 +49,7 @@ RUN buildDeps=" \
         curl \
     " \
     && set -x \
-    && apt-get update && apt-get install -y $buildDeps --no-install-recommends \
+    && apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
     && curl -fSL "http://php.net/get/$PHP_FILENAME/from/this/mirror" -o "$PHP_FILENAME" \
     && echo "$PHP_SHA256 *$PHP_FILENAME" | sha256sum -c - \
     && curl -fSL "http://php.net/get/$PHP_FILENAME.asc/from/this/mirror" -o "$PHP_FILENAME.asc" \
@@ -106,10 +108,10 @@ RUN chmod +x /usr/local/bin/docker-php-ext-*
 
 ENV PHP_AMQP_BUILD_DEPS libtool automake git pkg-config librabbitmq-dev libzmq-dev
 
-RUN apt-get update && apt-get install -y $PHP_AMQP_BUILD_DEPS --no-install-recommends
+RUN apt-get update && apt-get install -y $PHP_AMQP_BUILD_DEPS --no-install-recommends && rm -r /var/lib/apt/lists/*
 
 #Must be keep
-RUN apt-get update && apt-get install -y libmagickwand-dev libvips-dev libgsf-1-dev libmagickcore-dev libevent-dev --no-install-recommends
+RUN apt-get update && apt-get install -y libmagickwand-dev libvips-dev libgsf-1-dev libmagickcore-dev libevent-dev --no-install-recommends && rm -r /var/lib/apt/lists/*
 
 # MONGO
 RUN cd /etc && git clone --depth=1 -b 1.1.1 https://github.com/mongodb/mongo-php-driver.git \
@@ -179,7 +181,5 @@ RUN ln -sf /dev/stderr /var/log/php7.0-fpm.log
 
 ADD start-php /etc/my_init.d/start-php.sh
 RUN chmod +x /etc/my_init.d/start-php.sh
-
-RUN  rm -r /var/lib/apt/lists/*
 
 EXPOSE 9000
