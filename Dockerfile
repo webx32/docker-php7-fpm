@@ -2,8 +2,6 @@ FROM phusion/baseimage
 
 MAINTAINER ivan@lagunovsky.com
 
-ENV DEBIAN_FRONTEND noninteractive
-
 ENV PHP_INI_DIR /etc/php/7.0/fpm/
 ENV PHP_VERSION 7.0.3
 ENV PHP_FILENAME php-7.0.3.tar.xz
