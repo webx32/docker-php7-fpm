@@ -1,19 +1,19 @@
-FROM phusion/baseimage:
+FROM phusion/baseimage
 
 MAINTAINER ivan@lagunovsky.com
 
 ENV DEBIAN_FRONTEND noninteractive
 
 ENV PHP_INI_DIR /etc/php/7.0/fpm/
-ENV PHP_VERSION 7.0.2
-ENV PHP_FILENAME php-7.0.2.tar.xz
-ENV PHP_SHA256 556121271a34c442b48e3d7fa3d3bbb4413d91897abbb92aaeced4a7df5f2ab2
+ENV PHP_VERSION 7.0.3
+ENV PHP_FILENAME php-7.0.3.tar.xz
+ENV PHP_SHA256 3af2b62617a0e46214500fc3e7f4a421067224913070844d3665d6cc925a1cca
 ENV PHP_USER www-data
 ENV PHP_AUTOCONF /usr/bin/autoconf
 ENV PHP_INI_TYPE production
 
 # persistent / runtime deps
-RUN apt-get update && apt-get install -y ca-certificates wget librecode0 libmagickwand-dev libsasl2-dev libmemcached-dev imagemagick libsqlite3-0 libxml2 --no-install-recommends && rm -r /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y git ca-certificates wget librecode0 libmagickwand-dev libsasl2-dev libmemcached-dev imagemagick libsqlite3-0 libxml2 --no-install-recommends && rm -r /var/lib/apt/lists/*
 
 # phpize deps
 RUN apt-get update && apt-get install -y build-essential autoconf file g++ gcc libc-dev make pkg-config re2c --no-install-recommends && rm -r /var/lib/apt/lists/*
