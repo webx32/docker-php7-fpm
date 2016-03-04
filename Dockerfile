@@ -6,14 +6,12 @@ ENV PHP_INI_DIR /etc/php/7.0/fpm/
 ENV PHP_VERSION 7.0.3
 ENV PHP_FILENAME php-7.0.3.tar.xz
 ENV PHP_SHA256 3af2b62617a0e46214500fc3e7f4a421067224913070844d3665d6cc925a1cca
-ENV PHP_USER www-data
+ENV PHP_USER root
 ENV PHP_AUTOCONF /usr/bin/autoconf
 ENV PHP_INI_TYPE production
 
-RUN apt-get update && apt-get install -y git && rm -r /var/lib/apt/lists/*
-
 # persistent / runtime deps
-RUN apt-get update && apt-get install -y git ca-certificates wget librecode0 libmagickwand-dev libsasl2-dev libmemcached-dev imagemagick libsqlite3-0 libxml2 --no-install-recommends && rm -r /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y ca-certificates wget librecode0 libmagickwand-dev libsasl2-dev libmemcached-dev imagemagick libsqlite3-0 libxml2 --no-install-recommends && rm -r /var/lib/apt/lists/*
 
 # phpize deps
 RUN apt-get update && apt-get install -y build-essential autoconf file g++ gcc libc-dev make pkg-config re2c --no-install-recommends && rm -r /var/lib/apt/lists/*
@@ -153,8 +151,9 @@ RUN rm -Rf /usr/lib/rabbitmq-c
 
 # Create php.ini
 RUN curl https://raw.githubusercontent.com/php/php-src/PHP-$PHP_VERSION/php.ini-development -o $PHP_INI_DIR/php.ini-development \
-    && curl https://raw.githubusercontent.com/php/php-src/PHP-$PHP_VERSION/php.ini-production -o $PHP_INI_DIR/php.ini-production \
-    && ln -s $PHP_INI_DIR/php.ini-$PHP_INI_TYPE $PHP_INI_DIR/php.ini
+    && curl https://raw.githubusercontent.com/php/php-src/PHP-$PHP_VERSION/php.ini-production -o $PHP_INI_DIR/php.ini-production
+
+RUN echo error_log = /dev/stderr >> $PHP_INI_DIR/php.ini-development
 
 ADD config/php-fpm.conf $PHP_INI_DIR/php-fpm.conf
 ADD config/www.conf $PHP_INI_DIR/pool.d/www.conf
