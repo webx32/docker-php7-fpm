@@ -3,8 +3,8 @@ FROM phusion/baseimage
 MAINTAINER ivan@lagunovsky.com
 
 ENV PHP_INI_DIR /etc/php/7.0/fpm/
-ENV PHP_VERSION 7.0.3
-ENV PHP_FILENAME php-7.0.3.tar.xz
+ENV PHP_VERSION 7.0.4
+ENV PHP_FILENAME php-7.0.4.tar.xz
 ENV PHP_SHA256 3af2b62617a0e46214500fc3e7f4a421067224913070844d3665d6cc925a1cca
 ENV PHP_USER root
 ENV PHP_AUTOCONF /usr/bin/autoconf
