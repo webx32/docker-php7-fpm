@@ -1,6 +1,6 @@
 FROM phusion/baseimage
 
-MAINTAINER ivan@lagunovsky.com
+MAINTAINER www@webx32.com
 
 ENV PHP_INI_DIR /etc/php/7.0/fpm/
 ENV PHP_VERSION 7.0.4
