@@ -46,9 +46,9 @@ RUN buildDeps=" \
     " \
     && set -x \
     && apt-get update && apt-get install -y $buildDeps --no-install-recommends && rm -rf /var/lib/apt/lists/* \
-    && curl -fSL "http://php.net/get/$PHP_FILENAME/from/this/mirror" -o "$PHP_FILENAME" \
+    && curl -fSL "http://cn2.php.net/get/$PHP_FILENAME/from/this/mirror" -o "$PHP_FILENAME" \
     && echo "$PHP_SHA256 *$PHP_FILENAME" | sha256sum -c - \
-    && curl -fSL "http://php.net/get/$PHP_FILENAME.asc/from/this/mirror" -o "$PHP_FILENAME.asc" \
+    && curl -fSL "http://cn2.php.net/get/$PHP_FILENAME.asc/from/this/mirror" -o "$PHP_FILENAME.asc" \
     && gpg --verify "$PHP_FILENAME.asc" \
     && mkdir -p /usr/src/php \
     && tar -xf "$PHP_FILENAME" -C /usr/src/php --strip-components=1 \
@@ -110,7 +110,7 @@ RUN apt-get update && apt-get install -y $PHP_AMQP_BUILD_DEPS --no-install-recom
 RUN apt-get update && apt-get install -y libmagickwand-dev libvips-dev libgsf-1-dev libmagickcore-dev libevent-dev --no-install-recommends && rm -r /var/lib/apt/lists/*
 
 # MONGO
-RUN cd /etc && git clone --depth=1 -b 1.1.1 https://github.com/mongodb/mongo-php-driver.git \
+RUN cd /etc && git clone --depth=1 -b 1.1.6 https://github.com/mongodb/mongo-php-driver.git \
     && cd /etc/mongo-php-driver \
     && git submodule update --init \
     && phpize \
